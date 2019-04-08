@@ -56,8 +56,8 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
   return {
-    places: state.places.places,
-    selectedPlace: state.places.selectedPlace
+    places: state.placesReducer.places,
+    selectedPlace: state.placesReducer.selectedPlace
   };
 };
 
