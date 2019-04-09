@@ -5,11 +5,14 @@ const rootReducer = combineReducers({
   places: placesReducer
 });
 
+// ----------------------------------------
+// Para Debugging con React Native Debugger
 let composeEnhancers = compose;
 
 if (__DEV__) {
   composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 }
+// ----------------------------------------
 
 const configureStore = () => {
   return createStore(rootReducer, composeEnhancers());
