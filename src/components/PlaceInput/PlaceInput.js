@@ -31,6 +31,7 @@ class placeInput extends Component {
           style={ styles.placeInput }
           value={ this.state.placeName } 
           onChangeText={ this.placeNameChangedHandler }
+          // underlineColorAndroid="#000"
         />
         <Button 
           title="Add" 
@@ -50,7 +51,10 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   placeInput: {
-    width: "70%"
+    width: "70%",
+    paddingBottom: 2,
+    borderBottomColor: "#000",
+    borderBottomWidth: 1
   },
   placeButton: {
     width: "30%"
