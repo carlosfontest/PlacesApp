@@ -1,18 +1,16 @@
 // React & ReactNative
 import React, { Component } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, SafeAreaView, Platform, StatusBar, Text } from 'react-native';
 
 // Components
-import PlaceList from "../../components/PlaceList/PlaceList";
 import PlaceInput from "../../components/PlaceInput/PlaceInput";
-import PlaceDetail from "../../components/PlaceDetail/PlaceDetail";
 
 // Redux
 import { connect } from 'react-redux';
 import { addPlace, deletePlace, deselectPlace, selectPlace } from '../../store/actions/index';
 
 
-class PlacesApp extends Component {
+class SharePlace extends Component {
   placeAddedHandler = (placeName) => {
     this.props.onAddPlace(placeName);
   };
@@ -30,45 +28,45 @@ class PlacesApp extends Component {
   };
 
   render() {
+    placeAddedHandler = (placeName) => {
+      this.props.onAddPlace(placeName);
+    }
+
     return (
-      <View style={ styles.container }>
-        <PlaceDetail 
-          selectedPlace={ this.props.selectedPlace }
-          onItemDeleted={ this.placeDeletedHandler }
-          onModalClose={ this.modalCloseHandler }
-        />
-        <PlaceInput onPlaceAdded={ this.placeAddedHandler }/>
-        <PlaceList places={ this.props.places } onItemSelected={ this.placeSelectedHandler }/>
-      </View>
+      <SafeAreaView style={ styles.androidSafeArea }>
+        <View style={ styles.placeInputContainer }>
+          <Text style={ styles.titleText }>SHARE A PLACE</Text>
+          <PlaceInput onPlaceAdded={ this.placeAddedHandler }/>
+        </View>
+      </SafeAreaView>
     );
   };
 }
 
 const styles = StyleSheet.create({
-  container: {
+  placeInputContainer: {
+    marginTop: 20,
+    width: '90%'
+  },
+  androidSafeArea: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    padding: 40,
-    display: "flex"
+    backgroundColor: 'white',
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+    alignItems: 'center'
+  },
+  titleText: {
+    fontSize: 25,
+    textAlign: 'center',
+    paddingBottom: 20,
+    letterSpacing: 2
   }
 });
 
-const mapStateToProps = (state) => {
-  return {
-    places: state.placesReducer.places,
-    selectedPlace: state.placesReducer.selectedPlace
-  };
-};
-
+// Connect to Redux
 const mapDispatchToProps = (dispatch) => {
   return {
-    onAddPlace: (name) => dispatch(addPlace(name)),
-    onDeletePlace: () => dispatch(deletePlace()),
-    onSelectPlace: (key) => dispatch(selectPlace(key)),
-    onDeselectPlace: () => dispatch(deselectPlace())
+    onAddPlace: (name) => dispatch(addPlace(name))
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(PlacesApp);
+export default connect(null, mapDispatchToProps)(SharePlace);
