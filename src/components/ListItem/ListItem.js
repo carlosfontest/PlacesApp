@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     marginRight: 8,
     height: 30,
     width: 30
-  }
+  } 
 });
 
 export default listItem;
