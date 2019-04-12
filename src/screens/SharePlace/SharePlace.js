@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, TextInput } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 // Components
-import PlaceList from "./PlaceList/PlaceList";
-import PlaceInput from "./PlaceInput/PlaceInput";
-import PlaceDetail from "./PlaceDetail/PlaceDetail";
+import PlaceList from "../../components/PlaceList/PlaceList";
+import PlaceInput from "../../components/PlaceInput/PlaceInput";
+import PlaceDetail from "../../components/PlaceDetail/PlaceDetail";
 
 // Redux
 import { connect } from 'react-redux';
-import { addPlace, deletePlace, deselectPlace, selectPlace } from '../store/actions/index';
+import { addPlace, deletePlace, deselectPlace, selectPlace } from '../../store/actions/index';
 
 
 class PlacesApp extends Component {
