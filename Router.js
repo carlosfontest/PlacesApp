@@ -1,9 +1,9 @@
 // React & ReactNative
-import React, { Component } from 'react';
-import { Text, View } from 'react-native';
+import React from 'react';
 
 // ReactNavigation
-import { createBottomTabNavigator, createStackNavigator, createAppContainer, createSwitchNavigator } from 'react-navigation';
+import { createStackNavigator, createAppContainer, createSwitchNavigator } from 'react-navigation';
+import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
 
 // Icons
 import { Ionicons } from '@expo/vector-icons';
@@ -14,47 +14,51 @@ import FindPlace from './src/screens/FindPlace/FindPlace';
 import Auth from './src/screens/Auth/Auth';
 
 
-// Declare tab Navigation
-export const TabNavigator = createAppContainer( createBottomTabNavigator(
+// Declare tab Navigation (SignIn)
+const TabNavigator = createMaterialBottomTabNavigator(
   {
-    SharePlace,
-    FindPlace
+    SharePlace: {
+      screen: SharePlace,
+      navigationOptions: {
+        tabBarLabel: 'Share',
+        tabBarIcon: ({ tintColor }) => (
+          <Ionicons name='md-share' size={24} color={ tintColor } />
+        )
+      }
+    },
+    FindPlace: {
+      screen: FindPlace,
+      navigationOptions: {
+        tabBarLabel: 'Find',
+        tabBarIcon: ({ tintColor }) => (
+          <Ionicons name='ios-search' size={24} color={ tintColor } />
+        )
+      }
+    }
   },
   {
-    defaultNavigationOptions: ({ navigation }) => ({
-      tabBarIcon: ({ focused, horizontal, tintColor }) => {
-        const { routeName } = navigation.state;
-        let iconName;
-        if (routeName === 'SharePlace') {
-          iconName = `md-share`;
-        } else if (routeName === 'FindPlace') {
-          iconName = `ios-search`;
-        }
-
-        return <Ionicons name={ iconName } size={32} color={ tintColor } />;
-      },
-    }),
-    tabBarOptions: {
-      activeTintColor: 'purple',
-      inactiveTintColor: 'gray',
-    }
+    activeTintColor: '#3C978B',
+    inactiveTintColor: 'grey',
+    barStyle: {
+      backgroundColor: "#F2F2F2",
+      borderTopWidth: 0.5,
+      borderTopColor: 'grey'
+    },
+    shifting: true
   }
-));
+);
 
-// Declare stack Navigation
-export const StackNavigator = createAppContainer( createStackNavigator(
+// Declare stack Navigation (No SingIn)
+const StackNavigator = createStackNavigator(
   {
-    Login: {screen: Auth}
+    Login: { screen: Auth }
   },
   {
-    initialRouteName: 'Login',
-    defaultNavigationOptions: {
-      header: null
-    }
+    initialRouteName: 'Login'
   }
-));
+);
 
-// Declare ROOT navigator
+// Declare Switch Navigation
 export const createRootNavigator = (signedIn = false) => {
   return createAppContainer( createSwitchNavigator(
     {

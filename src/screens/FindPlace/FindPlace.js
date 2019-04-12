@@ -1,5 +1,7 @@
+// React & ReactNative
 import React, { Component } from 'react'
 import { View, Text, StyleSheet } from 'react-native'
+
 
 class FindPlace extends Component {
   loginHandler = () => {

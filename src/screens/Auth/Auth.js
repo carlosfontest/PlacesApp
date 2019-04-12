@@ -1,3 +1,4 @@
+// React & ReactNative
 import React, { Component } from 'react'
 import { View, Text, Button, StyleSheet } from 'react-native'
 
@@ -7,7 +8,17 @@ import { addUser, removeUser } from '../../store/actions/index';
 
 
 class Auth extends Component {
+  static navigationOptions = {
+    title: 'Login',
+    headerTitleStyle: {
+      textAlign:'center', 
+      alignSelf:'center',
+      flex:1
+    }
+  };
+
   loginHandler = () => {
+    // Loggeamos por ahora a un user cualquiera
     this.props.onAddUser('Carlos');
   };
 
