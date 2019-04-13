@@ -1,30 +1,50 @@
 // React & ReactNative
 import React, { Component } from 'react'
-import { View, StyleSheet, Platform, StatusBar, SafeAreaView, Text } from 'react-native'
+import { View, StyleSheet, Platform, StatusBar, SafeAreaView, Button, TouchableOpacity, Text } from 'react-native'
 
 // Redux
 import { connect } from 'react-redux';
+
+// Icons
+import { Ionicons } from '@expo/vector-icons';
+
+// ReactNavigation
+import { StackActions } from 'react-navigation';
 
 // Components
 import PlaceList from '../../components/PlaceList/PlaceList';
 
 
 class FindPlace extends Component {
-  static navigationOptions = {
-    title: 'Login',
-    headerTitleStyle: {
-      textAlign:'center', 
-      alignSelf:'center',
-      flex:1
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: 'Find Place',
+      headerRight: (
+        <TouchableOpacity onPress={ () => navigation.toggleDrawer() } style={{ marginRight: 15 }}>
+          <Ionicons name="ios-menu" size={38} />
+        </TouchableOpacity>
+      )
     }
   };
+
+  itemSelectdHandler = (key) => {
+    const selectedPlace = this.props.places.find(place => place.key === key);
+
+    const pushPlaceDetail = StackActions.push({
+      routeName: 'PlaceDetail',
+      params: {
+        selectedPlace
+      }
+    });
+
+    this.props.navigation.dispatch(pushPlaceDetail)
+  }
 
   render() {
     return (
       <SafeAreaView style={ styles.androidSafeArea }>
         <View style={ styles.placeListContainer }>
-          <Text style={ styles.titleText }>FIND A PLACE</Text>
-          <PlaceList places={ this.props.places }></PlaceList>
+          <PlaceList places={ this.props.places } onItemSelected={ this.itemSelectdHandler }></PlaceList>
         </View>
       </SafeAreaView>
     )
@@ -33,7 +53,6 @@ class FindPlace extends Component {
 
 const styles = StyleSheet.create({
   placeListContainer: {
-    marginTop: 20,
     width: '85%',
   },
   androidSafeArea: {

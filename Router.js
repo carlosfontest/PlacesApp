@@ -2,7 +2,7 @@
 import React from 'react';
 
 // ReactNavigation
-import { createStackNavigator, createAppContainer, createSwitchNavigator } from 'react-navigation';
+import { createStackNavigator, createAppContainer, createSwitchNavigator, createDrawerNavigator } from 'react-navigation';
 import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
 
 // Icons
@@ -13,12 +13,25 @@ import SharePlace from './src/screens/SharePlace/SharePlace';
 import FindPlace from './src/screens/FindPlace/FindPlace';
 import Auth from './src/screens/Auth/Auth';
 
+import PlaceDetail from './src/screens/PlaceDetail/PlaceDetail';
+
+
+// StackNavigator to FindPlaceTab
+const FindPlaceStackNavigation = createStackNavigator({
+  FindPlace: FindPlace,
+  PlaceDetail: PlaceDetail,
+},{ headerLayoutPreset: 'center' });
+
+// StackNavigator to SharePlaceTab
+const SharePlaceStackNavigation = createStackNavigator({
+  SharePlace: SharePlace
+},{ headerLayoutPreset: 'center' });
 
 // Declare tab Navigation (SignIn)
 const TabNavigator = createMaterialBottomTabNavigator(
   {
     FindPlace: {
-      screen: FindPlace,
+      screen: FindPlaceStackNavigation,
       navigationOptions: {
         tabBarLabel: 'Find',
         tabBarIcon: ({ tintColor }) => (
@@ -27,7 +40,7 @@ const TabNavigator = createMaterialBottomTabNavigator(
       }
     },
     SharePlace: {
-      screen: SharePlace,
+      screen: SharePlaceStackNavigation,
       navigationOptions: {
         tabBarLabel: 'Share',
         tabBarIcon: ({ tintColor }) => (
@@ -48,21 +61,28 @@ const TabNavigator = createMaterialBottomTabNavigator(
   }
 );
 
+// Declare Principal Draw Navigator
+const drawNavigator = createDrawerNavigator({
+  Home: TabNavigator
+})
+
 // Declare stack Navigation (No SingIn)
 const StackNavigator = createStackNavigator(
   {
     Login: { screen: Auth }
   },
   {
-    initialRouteName: 'Login'
+    initialRouteName: 'Login',
+    headerLayoutPreset: 'center'
   }
 );
 
+// ---------------------------------------------------------
 // Declare Switch Navigation
 export const createRootNavigator = (signedIn = false) => {
   return createAppContainer( createSwitchNavigator(
     {
-      SignedIn: { screen: TabNavigator },
+      SignedIn: { screen: drawNavigator },
       SignedOut: { screen: StackNavigator }
     },
     {

@@ -9,12 +9,7 @@ import { addUser, removeUser } from '../../store/actions/index';
 
 class Auth extends Component {
   static navigationOptions = {
-    title: 'Login',
-    headerTitleStyle: {
-      textAlign:'center', 
-      alignSelf:'center',
-      flex:1
-    }
+    title: 'Login'
   };
 
   loginHandler = () => {

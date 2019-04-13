@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "FirstApp",
-    "slug": "firstApp",
+    "name": "PlacesApp",
+    "slug": "placesApp",
     "privacy": "public",
     "sdkVersion": "32.0.0",
     "platforms": [

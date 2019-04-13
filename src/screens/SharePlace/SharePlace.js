@@ -1,16 +1,29 @@
 // React & ReactNative
 import React, { Component } from 'react';
-import { StyleSheet, View, SafeAreaView, Platform, StatusBar, Text } from 'react-native';
-
-// Components
-import PlaceInput from "../../components/PlaceInput/PlaceInput";
+import { StyleSheet, View, SafeAreaView, Platform, StatusBar, Text, TouchableOpacity } from 'react-native';
 
 // Redux
 import { connect } from 'react-redux';
 import { addPlace, deletePlace, deselectPlace, selectPlace } from '../../store/actions/index';
 
+// Icons
+import { Ionicons } from '@expo/vector-icons';
+
+// Components
+import PlaceInput from "../../components/PlaceInput/PlaceInput";
 
 class SharePlace extends Component {
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: 'Share Place',
+      headerRight: (
+        <TouchableOpacity onPress={ () => navigation.toggleDrawer() } style={{ marginRight: 15 }}>
+          <Ionicons name="ios-menu" size={38} />
+        </TouchableOpacity>
+      )
+    }
+  };
+
   placeAddedHandler = (placeName) => {
     this.props.onAddPlace(placeName);
   };
@@ -35,7 +48,6 @@ class SharePlace extends Component {
     return (
       <SafeAreaView style={ styles.androidSafeArea }>
         <View style={ styles.placeInputContainer }>
-          <Text style={ styles.titleText }>SHARE A PLACE</Text>
           <PlaceInput onPlaceAdded={ this.placeAddedHandler }/>
         </View>
       </SafeAreaView>
@@ -45,7 +57,6 @@ class SharePlace extends Component {
 
 const styles = StyleSheet.create({
   placeInputContainer: {
-    marginTop: 20,
     width: '90%'
   },
   androidSafeArea: {
