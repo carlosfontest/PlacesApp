@@ -73,7 +73,10 @@ const StackNavigator = createStackNavigator(
   },
   {
     initialRouteName: 'Login',
-    headerLayoutPreset: 'center'
+    headerLayoutPreset: 'center',
+    defaultNavigationOptions: {
+      header: null
+  }
   }
 );
 
