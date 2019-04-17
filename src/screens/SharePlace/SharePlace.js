@@ -1,18 +1,23 @@
 // React & ReactNative
 import React, { Component } from 'react';
-import { StyleSheet, View, SafeAreaView, Platform, StatusBar, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, SafeAreaView, Platform, Image, Text, TouchableOpacity, TextInput, Button, ScrollView, KeyboardAvoidingView } from 'react-native';
 
 // Redux
 import { connect } from 'react-redux';
-import { addPlace, deletePlace, deselectPlace, selectPlace } from '../../store/actions/index';
+import { addPlace } from '../../store/actions/index';
 
 // Icons
 import { Ionicons } from '@expo/vector-icons';
 
-// Components
-import PlaceInput from "../../components/PlaceInput/PlaceInput";
+// Others
+import imagePlaceholder from '../../../assets/image.jpg';
+
 
 class SharePlace extends Component {
+  state = {
+    placeName: ''
+  };
+
   static navigationOptions = ({ navigation }) => {
     return {
       title: 'Share Place',
@@ -24,52 +29,87 @@ class SharePlace extends Component {
     }
   };
 
-  placeAddedHandler = (placeName) => {
-    this.props.onAddPlace(placeName);
+  placeNameChangedHandler = (value) => {
+    this.setState({
+      placeName: value
+    })
   };
 
-  placeSelectedHandler = (key) => {
-    this.props.onSelectPlace(key);
+  placeAddedHandler = () => {
+		if (this.state.placeName.trim() !== '') {
+      this.props.onAddPlace(this.state.placeName);
+    }
   }
 
-  placeDeletedHandler = () => {
-    this.props.onDeletePlace();
-  };
-
-  modalCloseHandler = () => {
-    this.props.onDeselectPlace();
-  };
-
   render() {
-    placeAddedHandler = (placeName) => {
-      this.props.onAddPlace(placeName);
-    }
-
     return (
-      <SafeAreaView style={ styles.androidSafeArea }>
-        <View style={ styles.placeInputContainer }>
-          <PlaceInput onPlaceAdded={ this.placeAddedHandler }/>
-        </View>
-      </SafeAreaView>
+      <KeyboardAvoidingView style={ styles.principalContainer }>
+        <ScrollView style={ styles.formContainer }>
+          <View style={ [styles.placeholder, styles.placeholder1] }>
+            <Image source={ imagePlaceholder } style={ styles.imagePlaceholder }/>
+          </View>
+          <View style={ styles.buttonContainer }>
+            <Button title='Pick Image' onPress={ () => alert('Pick Image!') }/>
+          </View>
+
+          <View style={ styles.placeholder }>
+            <Text>Map Preview</Text>
+          </View>
+          <View style={ styles.buttonContainer }>
+            <Button title='Locate Me' onPress={ () => alert('Locate Me!') }/>
+          </View>
+          
+          <TextInput value={ this.state.placeName } placeholder='Place Name' style={ styles.input } onChangeText={ this.placeNameChangedHandler }/>
+          <Button title='Share the Place!' onPress={ this.placeAddedHandler }/>
+        </ScrollView>
+      </KeyboardAvoidingView>
     );
   };
 }
 
 const styles = StyleSheet.create({
-  placeInputContainer: {
+  formContainer: {
     width: '90%'
   },
-  androidSafeArea: {
+  principalContainer: {
     flex: 1,
     backgroundColor: 'white',
-    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+    paddingTop: 15,
+    paddingBottom: 15,
     alignItems: 'center'
   },
-  titleText: {
-    fontSize: 25,
-    textAlign: 'center',
-    paddingBottom: 20,
-    letterSpacing: 2
+  placeholder: {
+    borderWidth: 1,
+    borderColor: '#ccc',
+    backgroundColor: '#eee',
+    width: '95%',
+    height: 150,
+    alignSelf: 'center',
+    marginBottom: 8,
+    marginTop: 22,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  placeholder1: {
+    marginTop: 0
+  },
+  buttonContainer: {
+    width: '60%',
+    alignSelf: 'center'
+  },
+  input: {
+    backgroundColor: '#eee',
+    padding: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: 'black',
+    width: '100%',
+    alignSelf: 'center',
+    marginTop: 32,
+    marginBottom: 8
+  },
+  imagePlaceholder: {
+    width: '100%',
+    height: '100%'
   }
 });
 

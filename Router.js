@@ -14,6 +14,7 @@ import FindPlace from './src/screens/FindPlace/FindPlace';
 import Auth from './src/screens/Auth/Auth';
 
 import PlaceDetail from './src/screens/PlaceDetail/PlaceDetail';
+import DrawerContainer from './src/components/UI/DrawerContainer';
 
 
 // StackNavigator to FindPlaceTab
@@ -64,7 +65,9 @@ const TabNavigator = createMaterialBottomTabNavigator(
 // Declare Principal Draw Navigator
 const drawNavigator = createDrawerNavigator({
   Home: TabNavigator
-})
+},{
+  contentComponent: DrawerContainer
+});
 
 // Declare stack Navigation (No SingIn)
 const StackNavigator = createStackNavigator(
